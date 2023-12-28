@@ -2,33 +2,27 @@
 	"schemaVersion": 1,
 	"id": "furnaceclick",
 	"version": "${version}",
-	"name": "Furnace Cick",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Furnace Click",
+	"description": "A server-side mod that lets you click the face of a furnace to retrieve the output items",
 	"authors": [
-		"Me!"
+		"gdar463"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/gdar463/FurnaceClick",
+		"issues": "https://github.com/gdar463/FurnaceClick/issues"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/furnaceclick/icon.png",
+	"license": "Unlicense",
+	"icon": "assets/furnaceclick/logo.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.gdar463.furnaceclick.FurnaceCick"
+			"com.gdar463.furnaceclick.FurnaceClick"
 		]
 	},
-	"mixins": [
-		"furnaceclick.mixins.json"
-	],
 	"depends": {
 		"fabricloader": ">=0.15.3",
 		"minecraft": "~1.18.2",
 		"java": ">=17",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }
