@@ -13,18 +13,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("furnaceclick")
 public class FurnaceClick {
-
-    // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
-
     public static ResourceLocation[] allowedBlocks = {new ResourceLocation("minecraft", "furnace"), new ResourceLocation("minecraft","smoker"), new ResourceLocation("minecraft", "blast_furnace")};
 
     public FurnaceClick() {
