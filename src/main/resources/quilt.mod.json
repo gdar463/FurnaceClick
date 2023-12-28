@@ -1,0 +1,38 @@
+{
+	"schema_version": 1,
+	"quilt_loader": {
+		"group": "com.gdar463.furnaceclick",
+		"id": "furnaceclick",
+		"version": "${version}",
+		"metadata": {
+			"name": "Furnace Click",
+			"description": "A server-side mod that lets you click the face of a furnace to retrieve the output items",
+			"contributors": {
+				"gdar463": "Owner"
+			},
+			"contact": {
+				"issues": "https://github.com/gdar463/FurnaceClick/issues",
+				"sources": "https://github.com/gdar463/FurnaceClick"
+			},
+			"icon": "assets/furnaceclick/logo.png"
+		},
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"entrypoints": {
+			"init": "com.gdar463.furnaceclick.FurnaceClick"
+		},
+		"depends": [
+			{
+				"id": "quilt_loader",
+				"versions": ">=0.16.0-"
+			},
+			{
+				"id": "quilted_fabric_api",
+				"versions": ">=1.0.0-"
+			},
+			{
+				"id": "minecraft",
+				"versions": "=1.18.2"
+			}
+		]
+	}
+}
