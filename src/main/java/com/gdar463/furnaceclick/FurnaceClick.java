@@ -1,6 +1,5 @@
 package com.gdar463.furnaceclick;
 
-import com.mojang.logging.LogUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -13,21 +12,15 @@ import net.neoforged.neoforge.common.capabilities.Capabilities;
 import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import org.slf4j.Logger;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(FurnaceClick.MODID)
 public class FurnaceClick {
-
     public static final String MODID = "furnaceclick";
-    // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
 
     public static ResourceLocation[] allowedBlocks = {new ResourceLocation("minecraft", "furnace"), new ResourceLocation("minecraft","smoker"), new ResourceLocation("minecraft", "blast_furnace")};
 
