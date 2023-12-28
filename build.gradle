@@ -18,6 +18,17 @@ repositories {
 	// for more information about repositories.
 }
 
+loom {
+    splitEnvironmentSourceSets()
+
+	mods {
+		"furnaceclick" {
+			sourceSet sourceSets.main
+		}
+	}
+
+}
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
