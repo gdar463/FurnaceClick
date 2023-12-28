@@ -1,12 +1,11 @@
 package com.gdar463.furnaceclick;
 
-import com.mojang.logging.LogUtils;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -14,7 +13,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
@@ -22,26 +22,25 @@ import java.util.Objects;
 @Mod("furnaceclick")
 public class FurnaceClick {
 
-    // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    // Directly reference a log4j logger.
+    private static final Logger LOGGER = LogManager.getLogger();
 
         public FurnaceClick() {
-
             MinecraftForge.EVENT_BUS.register(EventHandler.class);
         }
 
         public static class EventHandler {
             @SubscribeEvent
             public static void leftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
-                BlockEntity block = event.getWorld().getBlockEntity(event.getPos());
+                TileEntity block = event.getWorld().getBlockEntity(event.getPos());
                 if (block != null && Objects.equals(block.getType().getRegistryName(), new ResourceLocation("minecraft", "furnace")) && event.getFace() == block.getBlockState().getValue(DirectionProperty.create("facing", Direction.Plane.HORIZONTAL))) {
                     LazyOptional<IItemHandler> furnaceCapability = block.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
                     if (furnaceCapability.resolve().isPresent()) {
                         IItemHandler furnaceInventory = furnaceCapability.resolve().get();
-                        Player player = event.getPlayer();
+                        PlayerEntity player = event.getPlayer();
                         ItemStack output = furnaceInventory.getStackInSlot(2);
                         if (output.getCount() != 0) {
-                            player.getInventory().placeItemBackInInventory(furnaceInventory.extractItem(2, output.getCount(), false));
+                            player.inventory.placeItemBackInInventory(event.getWorld(), furnaceInventory.extractItem(2, output.getCount(), false));
                         }
                     }
                 }
