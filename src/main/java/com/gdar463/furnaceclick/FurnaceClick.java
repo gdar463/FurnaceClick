@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -28,26 +29,27 @@ public class FurnaceClick {
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
-        public FurnaceClick() {
+    public static ResourceLocation[] allowedBlocks = {new ResourceLocation("minecraft", "furnace"), new ResourceLocation("minecraft","smoker"), new ResourceLocation("minecraft", "blast_furnace")};
 
-            NeoForge.EVENT_BUS.register(EventHandler.class);
-        }
+    public FurnaceClick() {
+        NeoForge.EVENT_BUS.register(EventHandler.class);
+    }
 
-        public static class EventHandler {
-            @SubscribeEvent
-            public static void leftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
-                BlockEntity block = event.getLevel().getBlockEntity(event.getPos());
-                if (block != null && Objects.equals(BuiltInRegistries.BLOCK.getKey(block.getBlockState().getBlock()), new ResourceLocation("minecraft", "furnace")) && event.getFace() == block.getBlockState().getValue(DirectionProperty.create("facing", Direction.Plane.HORIZONTAL))) {
-                    LazyOptional<IItemHandler> furnaceCapability = block.getCapability(Capabilities.ITEM_HANDLER);
-                    if (furnaceCapability.resolve().isPresent()) {
-                        IItemHandler furnaceInventory = furnaceCapability.resolve().get();
-                        Player player = event.getEntity();
-                        ItemStack output = furnaceInventory.getStackInSlot(2);
-                        if (output.getCount() != 0) {
-                            player.getInventory().placeItemBackInInventory(furnaceInventory.extractItem(2, output.getCount(), false));
-                        }
+    public static class EventHandler {
+        @SubscribeEvent
+        public static void leftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+            BlockEntity block = event.getLevel().getBlockEntity(event.getPos());
+            if (block != null && Arrays.asList(FurnaceClick.allowedBlocks).contains(BuiltInRegistries.BLOCK.getKey(block.getBlockState().getBlock())) && event.getFace() == block.getBlockState().getValue(DirectionProperty.create("facing", Direction.Plane.HORIZONTAL))) {
+                LazyOptional<IItemHandler> furnaceCapability = block.getCapability(Capabilities.ITEM_HANDLER);
+                if (furnaceCapability.resolve().isPresent()) {
+                    IItemHandler furnaceInventory = furnaceCapability.resolve().get();
+                    Player player = event.getEntity();
+                    ItemStack output = furnaceInventory.getStackInSlot(2);
+                    if (output.getCount() != 0) {
+                        player.getInventory().placeItemBackInInventory(furnaceInventory.extractItem(2, output.getCount(), false));
                     }
                 }
             }
         }
+    }
 }
