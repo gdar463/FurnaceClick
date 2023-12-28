@@ -8,12 +8,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
 import java.util.Objects;
@@ -33,12 +34,12 @@ public class FurnaceClick {
         public static class EventHandler {
             @SubscribeEvent
             public static void leftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
-                BlockEntity block = event.getWorld().getBlockEntity(event.getPos());
-                if (block != null && Objects.equals(block.getType().getRegistryName(), new ResourceLocation("minecraft", "furnace")) && event.getFace() == block.getBlockState().getValue(DirectionProperty.create("facing", Direction.Plane.HORIZONTAL))) {
-                    LazyOptional<IItemHandler> furnaceCapability = block.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
+                BlockEntity block = event.getLevel().getBlockEntity(event.getPos());
+                if (block != null && Objects.equals(ForgeRegistries.BLOCKS.getKey(block.getBlockState().getBlock()), new ResourceLocation("minecraft", "furnace")) && event.getFace() == block.getBlockState().getValue(DirectionProperty.create("facing", Direction.Plane.HORIZONTAL))) {
+                    LazyOptional<IItemHandler> furnaceCapability = block.getCapability(ForgeCapabilities.ITEM_HANDLER);
                     if (furnaceCapability.resolve().isPresent()) {
                         IItemHandler furnaceInventory = furnaceCapability.resolve().get();
-                        Player player = event.getPlayer();
+                        Player player = event.getEntity();
                         ItemStack output = furnaceInventory.getStackInSlot(2);
                         if (output.getCount() != 0) {
                             player.getInventory().placeItemBackInInventory(furnaceInventory.extractItem(2, output.getCount(), false));
