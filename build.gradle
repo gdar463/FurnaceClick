@@ -13,9 +13,7 @@ repositories {
     mavenLocal()
 }
 
-base {
-    archivesName = mod_id
-}
+base.archivesName = mod_id
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -140,9 +138,6 @@ tasks.named('jar', Jar).configure {
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-
-    // This is the preferred method to reobfuscate your jar file
-    finalizedBy 'reobfJar'
 }
 
 tasks.withType(JavaCompile).configureEach {
