@@ -13,7 +13,7 @@ repositories {
     mavenLocal()
 }
 
-base.archivesName = mod_id
+base.archivesName = "furnaceclick-neoforge"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
